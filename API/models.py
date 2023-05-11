@@ -14,4 +14,8 @@ class SensorData(models.Model):
             # 如果是新的SensorData对象，则设置time字段为当前时间
             self.time = datetime.now()
         super().save(*args, **kwargs)
-  #
+
+class ImageData(models.Model):
+    time = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='images/')
+    name_image = models.CharField(max_length=100)

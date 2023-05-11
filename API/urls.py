@@ -33,4 +33,5 @@ urlpatterns = [
     path('save-sensor-data/', save_sensor_data, name='save_sensor_data'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+   path('upload_image/', upload_image, name='upload_image'),
 ]

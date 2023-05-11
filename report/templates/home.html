@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Django App</title>
+</head>
+<body>
+    <h1>Welcome to my app!</h1>
+<!-- template.html -->
+
+<img src="{{ MEDIA_URL }}/images/20230524112015_ddog.jpg" alt="Your Image">
+<!-- template.html -->
+
+<img src="{% url 'image_view' filename='your_image.jpg' %}" alt="Your Image">
+
+</body>
+</html>
