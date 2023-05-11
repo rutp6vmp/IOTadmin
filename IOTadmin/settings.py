@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-5f)v%jqn6sc*nph&fx5lkt8wum$+ed=yiadzu2lndypxaz#yqn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,27 +82,27 @@ WSGI_APPLICATION = "IOTadmin.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'iotdb',
-        'USER': 'iotuser',
-        'PASSWORD': 'fIXceQ9tuRrQOEAj0YYR2UDQM300I9Oy',
-        'HOST': 'postgres://iotuser:fIXceQ9tuRrQOEAj0YYR2UDQM300I9Oy@dpg-che4lnu7avja5maoqvr0-a.singapore-postgres.render.com/iotdb',
-        'PORT': '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'IOTDB',
-#         'USER': 'IOTADMIN',
-#         'PASSWORD': 'Aa123456',
-#         'HOST': 'localhost',
+#         'NAME': 'iotdb',
+#         'USER': 'iotuser',
+#         'PASSWORD': 'fIXceQ9tuRrQOEAj0YYR2UDQM300I9Oy',
+#         'HOST': 'postgres://iotuser:fIXceQ9tuRrQOEAj0YYR2UDQM300I9Oy@dpg-che4lnu7avja5maoqvr0-a.singapore-postgres.render.com/iotdb',
 #         'PORT': '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'IOTDB',
+        'USER': 'IOTADMIN',
+        'PASSWORD': 'Aa123456',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
