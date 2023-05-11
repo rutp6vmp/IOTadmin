@@ -14,3 +14,4 @@ class SensorData(models.Model):
             # 如果是新的SensorData对象，则设置time字段为当前时间
             self.time = datetime.now()
         super().save(*args, **kwargs)
+  #
