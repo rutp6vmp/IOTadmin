@@ -60,39 +60,6 @@ API_3:save-sensor-data
 用途 :寫入圖片
 POST
 """
-# @api_view(['POST'])
-# @swagger_auto_schema(
-#     request_body=openapi.Schema(
-#         type=openapi.TYPE_OBJECT,
-#         required=['time', 'image', 'name_image'],
-#         properties={
-#             'time': openapi.Schema(type=openapi.TYPE_STRING, description='date and time'),
-#             'image': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_BINARY, description='Image file'),
-#             'name_image': openapi.Schema(type=openapi.TYPE_STRING, description='Image name'),
-#         },
-#     ),
-#     operation_description='Save image data',
-#     responses={
-#         '200': 'OK',
-#         '400': 'Bad request',
-#     },
-# )
-
-# def save_image_data(request):
-#     if request.method == 'POST':
-#
-#         time = request.data.get('time')
-#         image = request.data.get('image')
-#         name_image = request.data.get('name_image')
-#
-#         # 处理图像的逻辑，例如保存到文件系统或云存储
-#         image_data = ImageData(time=time, image=image, name_image=name_image)
-#         image_data.save()
-#
-#         return Response(status=200)
-#     else:
-#         return Response(status=400)
-#
 
 @swagger_auto_schema(
     method='post',
