@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        {% for item in items %}
+            <h1>{{ item.name_image }}</h1>
+             <h1>{{ item.new_time }}</h1>
+            <img src="{{ item.image.url }}" width="156px" height="98px" />
+        {% endfor %}
+    </body>
+</html>

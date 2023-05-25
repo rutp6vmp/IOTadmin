@@ -148,3 +148,13 @@ schema_view = get_schema_view(
    permission_classes=[permissions.AllowAny],
 )
 
+from django.views.generic import TemplateView
+class showimage(TemplateView):
+    template_name = 'image.html'
+
+    def get(self, request, *args, **kwargs): 
+        images=ImageData.objects.all()
+        context=self.get_context_data(**kwargs)
+        context['items'] = images
+
+        return self.render_to_response(context)

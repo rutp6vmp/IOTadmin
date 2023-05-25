@@ -15,7 +15,24 @@ class SensorData(models.Model):
             self.time = datetime.now()
         super().save(*args, **kwargs)
 
+from django.utils.safestring import mark_safe
+
 class ImageData(models.Model):
-    time = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='images/')
-    name_image = models.CharField(max_length=100)
+    time = models.CharField(max_length=100) #捨去
+    image = models.ImageField(verbose_name="上傳圖片(不可更動)", upload_to='images/')
+    name_image = models.CharField(verbose_name="圖片名稱", max_length=100)
+    new_time = models.DateTimeField(verbose_name="新增日期時間", auto_now=True)
+    date = models.DateField(verbose_name="新增日期",auto_now=True)
+
+    def showimages(self):
+        href = self.image.url
+        try:
+            img = mark_safe('<img src="%s" width="156px" height="98px" />' % href)
+        except Exception:
+            img = ''
+        return img
+
+    showimages.allow_tags = True
+
+    class Meta:
+        ordering = ['new_time']
