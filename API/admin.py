@@ -7,6 +7,6 @@ class ImageDataAdmin(admin.ModelAdmin):
     readonly_fields=('new_time', 'date')
     list_filter = ('date',)
     search_fields = ['date']
-    list_per_page = 20
+    #list_per_page = 20
 
 admin.site.register(ImageData, ImageDataAdmin)
