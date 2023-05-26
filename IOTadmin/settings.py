@@ -77,16 +77,7 @@ WSGI_APPLICATION = "IOTadmin.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'iotdb',
-#         'USER': 'iotuser',
-#         'PASSWORD': 'fIXceQ9tuRrQOEAj0YYR2UDQM300I9Oy',
-#         'HOST': 'postgres://iotuser:fIXceQ9tuRrQOEAj0YYR2UDQM300I9Oy@dpg-che4lnu7avja5maoqvr0-a.singapore-postgres.render.com/iotdb',
-#         'PORT': '5432',
-#     }
-# }
+
 
 # DATABASES = {
 #     'default': {
