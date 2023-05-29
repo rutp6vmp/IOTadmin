@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>即時影像</title>
+	<!-- Bootstrap -->
+	<link href="{% static 'css/bootstrap-4.4.1.css' %}" rel="stylesheet">
+	<style type="text/css">
+		#first-container {
+			max-width: 20%;
+		}
+
+		#second-container {
+			max-width: 80%;
+		}
+
+		.row {
+			display: flex;
+			flex-wrap: nowrap;
+		}
+
+		.col {
+			flex: 1;
+		}
+
+		.row #second-container footer {
+			background-color: #000000;
+			color: #FFFFFF;
+		}
+
+		.container-fluid.flex-wrap .row #second-container {
+			background-color: #072534;
+		}
+
+		.row #second-container h2 {
+			color: #FFFFFF;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid flex-wrap">
+		<div class="row">
+			<div class="col" id="first-container">
+				<p></p>
+				<h2><strong>列表</strong></h2>
+				<hr />
+				<li><a href="{% url 'index' %}">即時影像</a></li>
+				<li><a href="">歷史紀錄</a></li>
+				<li>水面垃圾辨識</li>
+			</div>
+			<div class="col" id="second-container">
+				<p></p>
+				<h2><strong>即時影像</strong></h2>
+
+				<div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel" style="background-color: grey">
+					<div class="carousel-inner" role="listbox">
+						{% for item in items %}
+						<div class="carousel-item{% if forloop.first %} active{% endif %}">
+							<img src="{{ item.image.url }}" alt="Slide" class="d-block mx-auto" style="max-width: 100%; height: auto;">
+							<div class="carousel-caption">
+								<h5 style="color:#FFFFFF; background-color: black;">{{ item.name_image }}</h5>
+								<p style="color:#FFFFFF; background-color: black;">{{ item.new_time }}</p>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleIndicators1" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#carouselExampleIndicators1" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>				
+
+				<p></p>
+				<footer>
+					<p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit.<br>
+						Aspernatur illo dolorem assumenda minima optio beatae, iure praesentium fuga vero sint. </p>
+				</footer>
+				<p></p>
+			</div>
+		</div>
+	</div>
+	<!-- body code goes here -->
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{% static 'js/popper.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+</body>
+
+</html>

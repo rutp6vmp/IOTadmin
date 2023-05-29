@@ -125,3 +125,13 @@ class showimage(TemplateView):
         context['items'] = images
 
         return self.render_to_response(context)
+    
+class index(TemplateView):
+    template_name = 'index.html'
+
+    def get(self, request, *args, **kwargs): 
+        images=ImageData.objects.all()
+        context=self.get_context_data(**kwargs)
+        context['items'] = images
+
+        return self.render_to_response(context)

@@ -78,7 +78,16 @@ WSGI_APPLICATION = "IOTadmin.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'iotdb',
+        'USER': 'iotuser',
+        'PASSWORD': 'fIXceQ9tuRrQOEAj0YYR2UDQM300I9Oy',
+        'HOST': 'dpg-che4lnu7avja5maoqvr0-a.singapore-postgres.render.com',
+        'PORT': '5432',
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -90,9 +99,9 @@ WSGI_APPLICATION = "IOTadmin.wsgi.application"
 #     }
 # }
 
-DATABASES = {
-    'default':  dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
+# DATABASES = {
+#     'default':  dj_database_url.parse(os.environ.get("DATABASE_URL"))
+# }
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
