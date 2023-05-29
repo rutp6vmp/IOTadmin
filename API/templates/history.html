@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>歷史紀錄</title>
 	<!-- Bootstrap -->
-	<link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+	<link href="{% static 'css/bootstrap-4.4.1.css' %}" rel="stylesheet">
 	<style type="text/css">
 		#first-container {
 			max-width: 20%;
@@ -45,22 +46,38 @@
 			<div class="col" id="first-container">
 				<p></p>
 			  <h2><strong>列表</strong></h2><hr/>
-				<li><a href="index.html">即時影像</a></li>
-				<li><a href="history.html">歷史紀錄</a></li>
+				<li><a href="{% url 'index' %}">即時影像</a></li>
+				<li><a href="{% url 'history' %}">歷史紀錄</a></li>
 				<li>水面垃圾辨識</li>
 			</div>
 			<div class="col" id="second-container">
 				<p></p>
 				<h2><strong>歷史紀錄</strong></h2>
-				<input type="date"><input type="submit"><input type="reset"><p></p>
+				<form method="GET" action="">
+					<input type="date" name="date">
+					<input type="text" name="search" placeholder="輸入圖片名稱">
+					<input type="submit" value="Search">
+					<input type="reset">
+				</form>
+				<p></p>
 				<div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel"
 					style="background-color: grey">
 					<div class="carousel-inner" role="listbox">
-						<div class="carousel-item active"> <img src="images/banner1.jpg" alt="First slide" width="1200"
-								height="600" class="d-block mx-auto">
-							<div class="carousel-caption">
+						{% if items %}
+							{% for item in items %}
+								<div class="carousel-item{% if forloop.first %} active{% endif %}">
+									<img src="{{ item.image.url }}" alt="Slide" class="d-block mx-auto" style="max-width: 100%; height: auto;">
+									<div class="carousel-caption">
+										<h5 style="color:#FFFFFF; background-color: black;">{{ item.name_image }}</h5>
+										<p style="color:#FFFFFF; background-color: black;">{{ item.new_time }}</p>
+									</div>
+								</div>
+							{% endfor %}
+						{% else %}
+							<div class="carousel-item active">
+								<img src="{% static 'images/404.jpg' %}" alt="Slide" class="d-block mx-auto" style="max-width: 100%; height: auto;">
 							</div>
-						</div>
+						{% endif %}
 					</div>
 					<a class="carousel-control-prev" href="#carouselExampleIndicators1" role="button" data-slide="prev">
 						<span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
@@ -82,11 +99,11 @@
 
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="js/jquery-3.4.1.min.js"></script>
+	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="js/popper.min.js"></script>
-	<script src="js/bootstrap-4.4.1.js"></script>
+	<script src="{% static 'js/popper.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
 </body>
 
 </html>

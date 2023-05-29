@@ -39,5 +39,5 @@ urlpatterns = [
     path('upload_image/', upload_image, name='upload_image'),
     path('image/', views.showimage.as_view(), name='image'), 
     path('index/', views.index.as_view(), name='index'), 
-    # path('history/', views.history.as_view(), name='history'), 
+    path('history/', views.history.as_view(), name='history'), 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

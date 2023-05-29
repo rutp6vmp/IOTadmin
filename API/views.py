@@ -130,8 +130,30 @@ class index(TemplateView):
     template_name = 'index.html'
 
     def get(self, request, *args, **kwargs): 
-        images=ImageData.objects.all()
+        images=ImageData.objects.order_by('-new_time')[:10]
         context=self.get_context_data(**kwargs)
+        context['items'] = images
+
+        return self.render_to_response(context)
+    
+from django.db.models import Q
+
+class history(TemplateView):
+    template_name = 'history.html'
+
+    def get(self, request, *args, **kwargs): 
+        date = request.GET.get('date')
+        search = request.GET.get('search')
+        
+        images = ImageData.objects.all()
+        
+        if date:
+            images = images.filter(date=date)
+        
+        if search:
+            images = images.filter(Q(name_image__icontains=search))
+        
+        context = self.get_context_data(**kwargs)
         context['items'] = images
 
         return self.render_to_response(context)
