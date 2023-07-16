@@ -40,5 +40,5 @@ urlpatterns = [
     path('image/', views.showimage.as_view(), name='image'), 
     path('index/', views.index.as_view(), name='index'), 
     path('history/', views.history.as_view(), name='history'), 
-    # path('setTime/', views.setTime, name='setTime'),
+    path('setTime/', views.setTime, name='setTime'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

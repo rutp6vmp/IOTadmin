@@ -14,7 +14,7 @@
 			max-width: 20%;
 		}
 
-		#second-container{
+		#second-container {
 			max-width: 80%;
 		}
 
@@ -26,38 +26,41 @@
 		.col {
 			flex: 1;
 		}
-.row #second-container footer
-		   {
+
+		.row #second-container footer {
 			background-color: #000000;
 			color: #FFFFFF;
 		}
-	.container-fluid.flex-wrap .row #second-container {
-    background-color: #072534;
-}
-    .row #second-container h2 {
-    color: #FFFFFF;
-}
-    </style>
+
+		.container-fluid.flex-wrap .row #second-container {
+			background-color: #072534;
+		}
+
+		.row #second-container h2 {
+			color: #FFFFFF;
+		}
+	</style>
 </head>
 
 <body>
 	{% if messages %}
-		<script>
-			function showAlert() {
-				swal({
-					title: "Information !",
-					text: "{% for message in messages %}{{ message }}\n{% endfor %}",
-					icon: "info"
-				});
-			}
-			window.onload = showAlert;// 在頁面載入後觸發彈窗
-		</script>
+	<script>
+		function showAlert() {
+			swal({
+				title: "Information !",
+				text: "{% for message in messages %}{{ message }}\n{% endfor %}",
+				icon: "info"
+			});
+		}
+		window.onload = showAlert;// 在頁面載入後觸發彈窗
+	</script>
 	{% endif %}
 	<div class="container-fluid flex-wrap">
 		<div class="row">
 			<div class="col" id="first-container">
 				<p></p>
-			  <h2><strong>列表</strong></h2><hr/>
+				<h2><strong>列表</strong></h2>
+				<hr />
 				<li><a href="{% url 'index' %}">即時影像</a></li>
 				<li><a href="{% url 'history' %}">歷史紀錄</a></li>
 				<li><a href="{% url 'setTime' %}">開關燈時間設定</a></li>
@@ -67,19 +70,30 @@
 				<p></p>
 				<h2><strong>開關燈時間設定</strong></h2>
 				<p></p>
-				<div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel" style="background-color: grey">
+				<div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel"
+					style="background-color: grey">
 					<form method="POST" action="">
 						{% csrf_token %}
-					  <div class="form-group">
-						<label style="color: black"><b>每日開燈時間設定</b></label><br/>
-						<input type="time" name="onTime" id="onTime"><br/>
-						<small id="Help1" style="color: rgba(255, 0, 0, 0.632)"><b>設定後，每日將依此時間進行開燈作業</b></small>
-					  </div>
-					  <div class="form-group">
-						<label style="color: black"><b>每日關燈時間設定</b></label><br/>
-						<input type="time" name="offTime" id="offTime"><br/>
-						<small id="Help2" style="color: rgba(255, 0, 0, 0.632)"><b>設定後，每日將依此時間進行關燈作業</b></small>
-					  </div>
+						<div class="form-group">
+							<label style="color: black"><b>每日開燈時間設定</b></label><br />
+							<input type="time" name="onTime" id="onTime"><br />
+							<small id="Help1" style="color: rgba(255, 0, 0, 0.632)"><b>設定後，每日將依此時間進行開燈作業</b></small>
+						</div>
+						<!-- <div class="form-group">
+							<label style="color: black"><b>選填開啟時段2 設定請打勾</b></label><br />
+							<input type="checkbox">
+							<input type="time" name="onTime-2" id="onTime-2"><br />
+						</div>
+						<div class="form-group">
+							<label style="color: black"><b>選填開啟時段3 設定請打勾</b></label><br />
+							<input type="checkbox">
+							<input type="time" name="onTime-3" id="onTime-3"><br />
+						</div> -->
+						<div class="form-group">
+							<label style="color: black"><b>每日關燈時間設定</b></label><br />
+							<input type="time" name="offTime" id="offTime"><br />
+							<small id="Help2" style="color: rgba(255, 0, 0, 0.632)"><b>設定後，每日將依此時間進行關燈作業</b></small>
+						</div>
 						<button type="submit" class="btn btn-success">送出設定</button>
 						<button type="reset" class="btn btn-warning">重設時間</button>
 					</form>

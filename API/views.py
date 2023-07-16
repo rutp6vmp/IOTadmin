@@ -159,81 +159,59 @@ class history(TemplateView):
 
         return self.render_to_response(context)
 
-# from django.contrib import messages
-# import time
-# from datetime import datetime, time as dt_time
-# from serial import Serial
-# import serial
-# import modbus_tk.modbus_rtu as modbus_rtu
-# import modbus_tk.defines as cst
-# from django.contrib.messages import get_messages
 
-# def setTime(request):
-#     mbComPort = '/dev/ttyUSB0'#'3COM7'   # COM3->RS-485
-#     baudrate = 9600
-#     databit = 8
-#     parity = 'N'
-#     stopbit = 1
-#     mbTimeout = 100 # ms
+import paho.mqtt.client as mqtt
+import time, json, datetime, sys, os
+import random
+from django.contrib import messages
 
-#     def control_light(value):
-#         mb_port = serial.Serial(port=mbComPort, baudrate=baudrate, bytesize=databit, parity=parity, stopbits=stopbit)
-#         master = modbus_rtu.RtuMaster(mb_port)
-#         master.set_timeout(mbTimeout/1000.0)
+def setTime(request):
+    def on_connect_callback(client, userdata, flags, rc):
+        # 回调函数的实现
+        m = "Connected flags" + str(flags) + ", result code " + str(rc) + ", client_id  " + str(client)
+        print(m)
+    
+    def on_connect(onTime, offTime):
+        broker_address = "broker.hivemq.com"
+        broker_port = 1883
 
-#         mbId = 1
-#         addr = 2 #base0
+        client1 = mqtt.Client()    #create new instance
+        client1.on_connect = on_connect_callback        #attach function to callback
 
-#         try:
-#             #-- FC5: write multi-coils
-#             rr = master.execute(mbId, cst.WRITE_SINGLE_COIL, addr, output_value=value)
-#             print("Write(addr, value)=%s" %(str(rr)))
-#             message = "設定成功"
-#             messages.success(request, message)
-#         except Exception as e:
-#             print("modbus test Error: " + str(e))
-#             message = "設定失敗：" + str(e)
-#             messages.error(request, message)
+        time.sleep(0.5)
+        client1.connect(host=broker_address, port=broker_port, keepalive=60)      #connect to broker
+                
+        client1.loop_start()    #start the loop
+        time.sleep(0.5)
 
-#         master._do_close()
+        try:
+            #-- start to push data
+            client1.publish('kh_wetland/on_time', onTime, qos=1)  #msg是訊息內容、topic_str是訊息的key
+            time.sleep(0.1)
+            client1.publish('kh_wetland/off_time', offTime, qos=1)
+            time.sleep(0.1)
+            message = "成功"
+            messages.success(request, message) 
+        except Exception as e:
+            message = "發送失敗：" + str(e)
+            messages.error(request, message)
 
-
-#     def set_light_on_off(start_time, end_time, request):
-#             while True:
-#                 current_time = datetime.now().time()  # 获取当前时间
-
-#                 if start_time <= current_time <= end_time:
-#                     # 在指定时间范围内，开启灯光
-#                     control_light(1)
-#                 else:
-#                     # 不在指定时间范围内，关闭灯光
-#                     control_light(0)
-
-#                 # 计算距离下一个完整分钟的时间间隔
-#                 current_second = datetime.now().second
-#                 sleep_time = 60 - current_second
-
-#                 time.sleep(sleep_time)  # 等待到下一个完整分钟
-
-#                 messages = get_messages(request)
-#                 for message in messages:
-#                     messages.add(message)  # 将消息添加到模板上下文中    
+        client1.disconnect()
 
 
-#     if request.method == 'POST':
-#         onTime = request.POST.get('onTime')
-#         offTime = request.POST.get('offTime')
+    if request.method == 'POST':
+        onTime = request.POST.get('onTime')
+        onTime = onTime.replace(':', '')
+        onTime = '["' + onTime + '"]'
 
-#         on_hour, on_minute = onTime.split(':')
-#         off_hour, off_minute = offTime.split(':')
+        offTime = request.POST.get('offTime')
+        offTime = offTime.replace(':', '')
+        offTime = '["' + offTime + '"]'
 
-#         start_time = dt_time(int(on_hour), int(on_minute))   # 设置开启时间为每天8点
-#         end_time = dt_time(int(off_hour), int(off_minute))    # 设置关闭时间为每天18点
+        on_connect(onTime, offTime)
 
-#         set_light_on_off(start_time, end_time, request)  # 调用函数来设置每日按照指定时间开启和关闭灯光
-
-#         return redirect(request.META.get('HTTP_REFERER'))
+        return redirect(request.META.get('HTTP_REFERER'))
     
 
-#     message = None
-#     return render(request, 'setTime.html', {'message': message})
+    message = None
+    return render(request, 'setTime.html', {'message': message})
