@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>歷史紀錄</title>
+	<!-- Bootstrap -->
+	<link href="{% static 'css/bootstrap-4.4.1.css' %}" rel="stylesheet">
+	<style type="text/css">
+		#first-container {
+			max-width: 20%;
+		}
+
+		#second-container{
+			max-width: 80%;
+		}
+
+		.row {
+			display: flex;
+			flex-wrap: nowrap;
+		}
+
+		.col {
+			flex: 1;
+		}
+.row #second-container footer
+		   {
+			background-color: #000000;
+			color: #FFFFFF;
+		}
+	.container-fluid.flex-wrap .row #second-container {
+    background-color: #072534;
+}
+    .row #second-container h2 {
+    color: #FFFFFF;
+}
+    </style>
+</head>
+
+<body>
+	{% if messages %}
+		<script>
+			function showAlert() {
+				swal({
+					title: "Information !",
+					text: "{% for message in messages %}{{ message }}\n{% endfor %}",
+					icon: "info"
+				});
+			}
+			window.onload = showAlert;// 在頁面載入後觸發彈窗
+		</script>
+	{% endif %}
+	<div class="container-fluid flex-wrap">
+		<div class="row">
+			<div class="col" id="first-container">
+				<p></p>
+			  <h2><strong>列表</strong></h2><hr/>
+				<li><a href="{% url 'index' %}">即時影像</a></li>
+				<li><a href="{% url 'history' %}">歷史紀錄</a></li>
+				<li><a href="{% url 'setTime' %}">開關燈時間設定</a></li>
+				<!-- <li>水面垃圾辨識</li> -->
+			</div>
+			<div class="col" id="second-container">
+				<p></p>
+				<h2><strong>開關燈時間設定</strong></h2>
+				<p></p>
+				<div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel" style="background-color: grey">
+					<form method="POST" action="">
+						{% csrf_token %}
+					  <div class="form-group">
+						<label style="color: black"><b>每日開燈時間設定</b></label><br/>
+						<input type="time" name="onTime" id="onTime"><br/>
+						<small id="Help1" style="color: rgba(255, 0, 0, 0.632)"><b>設定後，每日將依此時間進行開燈作業</b></small>
+					  </div>
+					  <div class="form-group">
+						<label style="color: black"><b>每日關燈時間設定</b></label><br/>
+						<input type="time" name="offTime" id="offTime"><br/>
+						<small id="Help2" style="color: rgba(255, 0, 0, 0.632)"><b>設定後，每日將依此時間進行關燈作業</b></small>
+					  </div>
+						<button type="submit" class="btn btn-success">送出設定</button>
+						<button type="reset" class="btn btn-warning">重設時間</button>
+					</form>
+				</div>
+				<p></p>
+				<footer>
+					<p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit.<br>
+						Aspernatur illo dolorem assumenda minima optio beatae, iure praesentium fuga vero sint. </p>
+				</footer>
+				<p></p>
+			</div>
+		</div>
+	</div>
+	<!-- body code goes here -->
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{% static 'js/popper.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+
+</html>
