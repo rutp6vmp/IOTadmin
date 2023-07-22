@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,21 +40,24 @@
 		.row #second-container h2 {
 			color: #FFFFFF;
 		}
+		form {
+			max-width: 50%;
+		}
 	</style>
 </head>
 
 <body>
 	{% if messages %}
-	<script>
-		function showAlert() {
-			swal({
-				title: "Information !",
-				text: "{% for message in messages %}{{ message }}\n{% endfor %}",
-				icon: "info"
-			});
-		}
-		window.onload = showAlert;// 在頁面載入後觸發彈窗
-	</script>
+		<script>
+			function showAlert() {
+				swal({
+					title: "Information !",
+					text: "{% for message in messages %}{{ message }}\n{% endfor %}",
+					icon: "info"
+				});
+			}
+			window.onload = showAlert;// 在頁面載入後觸發彈窗
+		</script>
 	{% endif %}
 	<div class="container-fluid flex-wrap">
 		<div class="row">
@@ -75,29 +79,44 @@
 					<form method="POST" action="">
 						{% csrf_token %}
 						<div class="form-group">
-							<label style="color: black"><b>每日開燈時間設定</b></label><br />
-							<input type="time" name="onTime" id="onTime"><br />
-							<small id="Help1" style="color: rgba(255, 0, 0, 0.632)"><b>設定後，每日將依此時間進行開燈作業</b></small>
+							<label style="color: black"><b>每日開燈時間設定(必填欄位)</b></label><br />
+							<input type="time" name="onTime" id="onTime" required><br />
+							<small id="Help1" style="color: orange"><b>設定後，每日將依此時間進行開燈作業</b></small>
 						</div>
-						<!-- <div class="form-group">
+						<div class="form-group">
 							<label style="color: black"><b>選填開啟時段2 設定請打勾</b></label><br />
-							<input type="checkbox">
-							<input type="time" name="onTime-2" id="onTime-2"><br />
+							<input type="checkbox" id="checkbox-2" onclick="handleCheckbox('checkbox-2', 'onTime-2')">
+							<input type="time" name="onTime-2" id="onTime-2" disabled><br />
 						</div>
 						<div class="form-group">
 							<label style="color: black"><b>選填開啟時段3 設定請打勾</b></label><br />
-							<input type="checkbox">
-							<input type="time" name="onTime-3" id="onTime-3"><br />
-						</div> -->
+							<input type="checkbox" id="checkbox-3" onclick="handleCheckbox('checkbox-3', 'onTime-3')">
+							<input type="time" name="onTime-3" id="onTime-3" disabled><br />
+						</div>
 						<div class="form-group">
-							<label style="color: black"><b>每日關燈時間設定</b></label><br />
-							<input type="time" name="offTime" id="offTime"><br />
-							<small id="Help2" style="color: rgba(255, 0, 0, 0.632)"><b>設定後，每日將依此時間進行關燈作業</b></small>
+							<label style="color: black"><b>每日關燈時間設定(必填欄位)</b></label><br />
+							<input type="time" name="offTime" id="offTime" required><br />
+							<small id="Help2" style="color: orange"><b>設定後，每日將依此時間進行關燈作業</b></small>
 						</div>
 						<button type="submit" class="btn btn-success">送出設定</button>
 						<button type="reset" class="btn btn-warning">重設時間</button>
-					</form>
-				</div>
+					</form><br/>
+					<h2><strong>開關燈時間紀錄</strong></h2>
+				  <ul class="list-group">
+					{% if contexts %}
+						{% for context in contexts|dictsortreversed:"date" %}
+							<li class="list-group-item">
+								{% if forloop.first %}
+									<span class="badge badge-primary badge-pill">New</span>
+								{% endif %}
+								設定日期 : {{context.date}} 開啟時間 : {{context.onTime}} 關閉時間 : {{context.offTime}}
+							</li>
+						{% endfor %}
+					{% else %}
+						<li class="list-group-item">目前無開關燈時間紀錄</li>
+					{% endif %}
+				  </ul>
+                </div>
 				<p></p>
 				<footer>
 					<p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit.<br>
@@ -117,6 +136,13 @@
 	<script src="{% static 'js/popper.min.js' %}"></script>
 	<script src="{% static 'js/bootstrap-4.4.1.js' %}"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script>
+		function handleCheckbox(checkboxId, timeId) {
+			var checkbox = document.getElementById(checkboxId);
+			var timeInput = document.getElementById(timeId);
+			timeInput.disabled = !checkbox.checked;
+		}
+	</script>
 </body>
 
 </html>

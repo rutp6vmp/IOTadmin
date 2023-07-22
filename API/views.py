@@ -164,6 +164,7 @@ import paho.mqtt.client as mqtt
 import time, json, datetime, sys, os
 import random
 from django.contrib import messages
+from API.models import Setting
 
 def setTime(request):
     def on_connect_callback(client, userdata, flags, rc):
@@ -200,18 +201,61 @@ def setTime(request):
 
 
     if request.method == 'POST':
+        show_time_list = []
+
         onTime = request.POST.get('onTime')
-        onTime = onTime.replace(':', '')
-        onTime = '["' + onTime + '"]'
+        if onTime:
+            show_time_list.append(onTime)
+        
+        newonTime = onTime.replace(':', '')
+        newonTime = '["' + newonTime + '"]'
+        set_time_list = [newonTime]
 
         offTime = request.POST.get('offTime')
-        offTime = offTime.replace(':', '')
-        offTime = '["' + offTime + '"]'
+        if not offTime:
+            offTime = None
+        else:
+            newoffTime = offTime.replace(':', '')
+            newoffTime = '["' + newoffTime + '"]'
 
-        on_connect(onTime, offTime)
+        onTime_2 = request.POST.get('onTime-2')
+        onTime_3 = request.POST.get('onTime-3')
+
+        # 处理第二个时间段
+        if onTime_2:
+            show_time_list.append(onTime_2)
+            newonTime_2 = onTime_2.replace(':', '')
+            newonTime_2 = '["' + newonTime_2 + '"]'
+            set_time_list.append(newonTime_2)
+
+        # 处理第三个时间段
+        if onTime_3:
+            show_time_list.append(onTime_3)
+            newonTime_3 = onTime_3.replace(':', '')
+            newonTime_3 = '["' + newonTime_3 + '"]'
+            set_time_list.append(newonTime_3)
+        
+
+        # 将列表转换为 JSON 格式的字符串
+        onTimes_str = json.dumps(set_time_list)
+        
+
+        on_connect(onTimes_str, newoffTime)
+
+        setting = Setting(onTime=show_time_list, offTime=offTime)
+        setting.save()
+        
 
         return redirect(request.META.get('HTTP_REFERER'))
     
+    else:
+        # ids_to_delete = [4, 5]
+        # Setting.objects.filter(id__in=ids_to_delete).delete()
+        contexts = Setting.objects.all()
+        if not contexts:
+            contexts = None
+        else:
+            contexts[0].is_first = True
+        message = None
 
-    message = None
-    return render(request, 'setTime.html', {'message': message})
+    return render(request, 'setTime.html', {'message': message, 'contexts': contexts})

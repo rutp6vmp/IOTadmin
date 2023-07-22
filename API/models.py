@@ -36,3 +36,11 @@ class ImageData(models.Model):
 
     class Meta:
         ordering = ['new_time']
+
+class Setting(models.Model):
+    onTime = models.CharField(max_length=50)  # 用于保存开灯时间
+    offTime = models.CharField(max_length=10)  # 用于保存关灯时间
+    date = models.DateTimeField(auto_now=True)  # 用于保存日期
+
+    def __str__(self):
+        return f'Setting #{self.id}'
